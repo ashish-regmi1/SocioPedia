@@ -1,2 +1,2 @@
 #SOCIOPEDIA
-MERN based responsive social media website.
+MERN based responsive social media website
