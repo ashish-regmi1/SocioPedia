@@ -18,7 +18,7 @@ export const register = async (req, res) => {
 //req.body
     const salt = await bcrypt.genSalt();
     const passwordHash = await bcrypt.hash(password, salt);
-
+//password encrypted
     const newUser = new User({
       firstName,
       lastName,
@@ -37,7 +37,7 @@ export const register = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
+//creation of new user and defining properties of it 
 /* LOGGING IN */
 export const login = async (req, res) => {
   try {
