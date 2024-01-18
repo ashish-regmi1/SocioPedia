@@ -24,8 +24,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMode, setLogout } from "state";
 import { useNavigate } from "react-router-dom";
 import FlexBetween from "components/FlexBetween";
-
+const BASE_URL = 'http://localhost:3001';
 const Navbar = () => {
+
+  //search function
+  const fetchSearchResults = async (searchInput) => {
+    try {
+      const response = await fetch(`${BASE_URL}/users/search?searchInput=${searchInput}`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+      throw error;
+    }
+  };
+  
+  const [searchInput, setSearchInput] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = async () => {
+    const results = await fetchSearchResults(searchInput);
+    setSearchResults(results);
+  };
+
   const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -65,8 +86,12 @@ const Navbar = () => {
             gap="3rem"
             padding="0.1rem 1.5rem"
           >
-            <InputBase placeholder="Search..." />
-            <IconButton>
+            <InputBase
+            placeholder="Search..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+            <IconButton onClick={handleSearch}>
               <Search />
             </IconButton>
           </FlexBetween>
@@ -139,6 +164,44 @@ const Navbar = () => {
               <Close />
             </IconButton>
           </Box>
+
+
+
+        {/* SEARCH INPUT FOR MOBILE */}
+        <Box p="1rem">
+          <InputBase
+            fullWidth
+            placeholder="Search..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+          <IconButton onClick={handleSearch}>
+            <Search />
+          </IconButton>
+
+          {/* SEARCH RESULTS */}
+          {searchResults.length > 0 && (
+            <Box>
+              {searchResults.map((result) => (
+                <div key={result.userId}>
+                  {/* Display the search results, you can customize this part */}
+                  <Typography
+                    onClick={() => {
+                      // Navigate to the user's profile on click
+                      navigate(`/profile/${result.userId}`);
+                      // Close the mobile menu
+                      setIsMobileMenuToggled(false);
+                    }}
+                  >
+                    {result.fullName}
+                  </Typography>
+                </div>
+              ))}
+            </Box>
+          )}
+        </Box>
+
+
 
           {/* MENU ITEMS */}
           <FlexBetween
