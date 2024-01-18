@@ -1,7 +1,7 @@
 # MERN Social Media Website Setup Guide
 
-# This repository contains the source code for a MERN (MongoDB, Express, React, Node.js) based responsive social media website. 
-# The project includes both server-side (backend) and client-side (frontend) development.
+### This repository contains the source code for a MERN (MongoDB, Express, React, Node.js) based responsive social media website. 
+### The project includes both server-side (backend) and client-side (frontend) development.
 
 ## Getting Started
 
